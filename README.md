@@ -32,8 +32,10 @@ your hands dirty hacking code.
 
 Code in this repo is organized as a Play module.
 
-For now, see the lumen-app repository for a working demo project.
+For now, see the
+[lumen-sample-app](https://github.com/codeforkjeff/lumen-sample-app)
+repository for a working demo project.
 
 # Support
 
-TODO
+There is a public chat room on [Gitter](https://gitter.im/codeforkjeff/lumen).
