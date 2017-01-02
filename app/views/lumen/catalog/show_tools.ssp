@@ -1,0 +1,23 @@
+<% import org.apache.solr.common.SolrDocument %>
+<% import lumen.DocumentPresenter %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val document: SolrDocument %>
+<%@ val docPresenter: DocumentPresenter %>
+
+<div class="panel panel-default show-tools">
+<div class="panel-heading">
+    <%= reqCtx.messages("lumen.tools.title") %>
+</div>
+
+<div class="panel-body">
+    <ul class="nav">
+        #for(documentActionF <- reqCtx.app.config.viewConfigs("show").documentActions)
+            <% val documentAction = documentActionF(docPresenter) %>
+            <li class="<%= documentAction.id %>">
+                <%= unescape(documentAction.toolHtml) %>
+            </li>
+        #end
+    </ul>
+</div>
+</div>

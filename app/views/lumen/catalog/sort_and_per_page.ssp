@@ -1,0 +1,6 @@
+
+<div id="sortAndPerPage" class="clearfix">
+    <% render("/lumen/catalog/paginate_compact.ssp") %>
+
+    <% render("/lumen/catalog/index_widgets.ssp") %>
+</div>

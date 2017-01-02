@@ -1,0 +1,26 @@
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+
+<div class="page-header row">
+    <h2 class="col-md-10 page-heading"><%= reqCtx.messages("lumen.welcome") %></h2>
+
+    <ul class="nav nav-pills col-md-2">
+        <li><a href="https://github.com/codeforkjeff/lumen">Github</a></li>
+    </ul>
+
+</div>
+
+<div id="getting-started">
+    <p>Lumen is a port of <a href="http://projectblacklight.org">Blacklight</a> to Scala and the Play framework. It's a work in progress!</p>
+
+    <h3 class='section-heading'>Getting started:</h3>
+
+    <ol>
+        <li>Tweak configuration - see the CustomConfig.scala file in this lumen-app project</li>
+        <li>Customize templates - selectively copy files from the /app/views/lumen
+        directory of the lumen project into lumen-app, and edit</li>
+        <li>Read the Wiki - to keep up with project status</li>
+        <li>Contribute - discuss Lumen on the gitter.im channel, file issues on github,
+        send pull requests</li>
+    </ol>
+</div>

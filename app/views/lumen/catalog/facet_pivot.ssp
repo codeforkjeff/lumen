@@ -1,0 +1,39 @@
+<% import scala.collection.JavaConversions %>
+<% import lumen.FacetFields %>
+<% import lumen.FacetFieldConfig %>
+<% import lumen.RequestContext %>
+<% import lumen.SearchState %>
+<% import org.apache.solr.client.solrj.response.PivotField %>
+<%@ val reqCtx: RequestContext %>
+<%@ val searchState: SearchState %>
+<%@ val facetFields: FacetFields %>
+<%@ val pivotFieldNames: List[String] %>
+<%@ val pivotFieldTree: List[PivotField] %>
+<ul class="pivot-facet list-unstyled">
+  #for(pivotField <- pivotFieldTree)
+    <% val fieldName = pivotFieldNames.head %>
+    <% val facetField = facetFields.facetConfigurationForField(fieldName) %>
+    <% val value = pivotField.getValue.toString %>
+    <% val selected = facetFields.facetInParams(facetField, value) %>
+    <li>
+    <span class="facet-values">
+      <span class="facet-label">
+        #if(!selected)
+        <%= unescape(facetFields.selectFacetLink(facetField, value)) %>
+      #else
+        <%= unescape(facetFields.removeFacetLink(facetField, value)) %>
+      #end
+      </span>
+      <span class="facet-count"><%= pivotField.getCount %></span>
+    </span>
+    #if(pivotField.getPivot != null && pivotField.getPivot.length > 0)
+      <% render("facet_pivot.ssp",
+      Map("pivotFieldTree" -> JavaConversions.asScalaBuffer(pivotField.getPivot).toList,
+          "pivotFieldNames" -> pivotFieldNames.tail,
+          "facetFields" -> FacetFields(reqCtx, Some(searchState.addFacetParamsAndRedirect(facetField, value)))
+          )) %>
+    #end
+    </li>
+  #end
+
+</ul>

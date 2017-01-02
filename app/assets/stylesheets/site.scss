@@ -1,0 +1,12 @@
+// This file contains overrides to stock .css ported over from Blacklight.
+// It's TBD whether this should be merged into lumen stylesheets or whether they belong
+// in the app project application.
+
+#header-navbar .navbar-brand {
+  text-indent: 0;
+  color: gold;
+  margin-left: 0;
+  font-family: Arial, Verdana;
+  font-size: 22px;
+  font-weight: bold;
+}

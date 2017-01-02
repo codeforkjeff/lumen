@@ -1,0 +1,42 @@
+<% import play.api.mvc.AnyContent %>
+<% import play.api.mvc.Request %>
+<% import play.api.i18n.Messages %>
+<% import views.html.helper.form %>
+<% import lumen.CatalogPresenter %>
+<% import lumen.Config %>
+<% import lumen.SearchState %>
+<% import lumen.response.Response %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val response: Response %>
+<% val app = reqCtx.app %>
+<% val messages = reqCtx.messages %>
+
+<h2 class="sr-only top-content-title"><%= messages("lumen.search.search_results_header") %></h2>
+
+<% attributes("title") = messages("lumen.search.page_title.title", reqCtx.catalogPresenter.renderSearchToPageTitle, reqCtx.applicationName) %>
+
+<%-- TODO:
+<% content_for(:head) do -%>
+<%= render_opensearch_response_metadata %>
+<%= rss_feed_link_tag %>
+<%= atom_feed_link_tag %>
+<% end %>
+--%>
+
+<% render("/lumen/catalog/search_header.ssp") %>
+
+<h2 class="sr-only"><%= messages("lumen.search.search_results") %></h2>
+
+#if(response.isEmpty)
+    <% render("/lumen/catalog/zero_results.ssp") %>
+#end
+
+<%-- TODO: elsif render_grouped_response? --%>
+#if(false)
+    <%-- render_grouped_document_index --%>
+#else
+    <% render(reqCtx.catalogPresenter.documentIndex) %>
+#end
+
+<%= render("results_pagination.ssp") %>

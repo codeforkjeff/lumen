@@ -1,0 +1,32 @@
+<% import lumen.FacetFieldConfig %>
+<% import lumen.FacetFields %>
+<% import lumen.SearchState %>
+<%@ val facetFields: FacetFields %>
+<%@ val facetField: FacetFieldConfig %>
+<%@ val searchState: SearchState %>
+
+<div class="facet_pagination top">
+  <% render("facet_pagination.ssp") %>
+</div>
+
+<div class="modal-header">
+  <button type="button" class="ajax-modal-close close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h3 class="modal-title"><%= facetFields.facetFieldLabel(facetField.key) %></h3>
+  #if(facetField.indexRange.isDefined && searchState.isMoreFacetsIndexSort)
+      <% render("facet_index_navigation.ssp") %>
+  #end
+
+</div>
+
+<div class="modal-body">
+<div class="facet_extended_list">
+    <% render("facet_limit.ssp", Map("showMoreLink" -> false)) %>
+</div>
+</div>
+
+<div class="modal-footer">
+
+<div class="facet_pagination bottom">
+    <% render("facet_pagination.ssp") %>
+</div>
+</div>

@@ -1,0 +1,10 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# TODO: routes are set up in the application project because
+# they need to refer to the concrete controller class(es).
+# Figure out some way to accommodate that elegantly.
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file        lumen.controllers.Assets.versioned(path="/public/lib/lumen", file)

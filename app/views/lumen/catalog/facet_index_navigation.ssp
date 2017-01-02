@@ -1,0 +1,19 @@
+<% import lumen.FacetFieldConfig %>
+<% import lumen.RequestContext %>
+<% import lumen.SearchState %>
+<%@ val reqCtx: RequestContext %>
+<%@ val facetField: FacetFieldConfig %>
+<%@ val searchState: SearchState %>
+
+<% val prefix = searchState.getMoreFacetsPrefix.getOrElse("") %>
+
+<nav class="alpha-filter">
+<a data-ajax-modal="preserve" class="btn btn-default btn-xs <%= if(!searchState.getMoreFacetsPrefix.isDefined) { "disabled" } %>" href="/catalog/facet/<%= facetField.fieldname %>?<%= searchState.pathForMoreFacetsClearPrefix.queryString %>"><%= reqCtx.messages("lumen.search.facets.clear") %></a>
+
+<ol class="pagination pagination-xs">
+    #for(letter <- facetField.indexRange.get)
+    <%-- TODO: reverse routing --%>
+    <li class="<%= if(prefix == letter) { "active" } %>"><a data-ajax-modal="preserve" href="/catalog/facet/<%= facetField.fieldname %>?<%= searchState.pathForMoreFacetsPrefix(letter).queryString %>"><%= letter %></a></li>
+    #end
+</ol>
+</nav>

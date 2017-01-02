@@ -1,0 +1,4 @@
+<% import lumen.DocumentPresenter %>
+<%@ val docPresenter: DocumentPresenter %>
+
+<h1 itemprop="name"><%= docPresenter.heading %></h1>

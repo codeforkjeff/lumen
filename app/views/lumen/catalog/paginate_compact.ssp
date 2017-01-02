@@ -1,0 +1,38 @@
+<% import lumen.Paginator %>
+<% import lumen.response.Response %>
+<% import lumen.Util %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val response: Response %>
+<% val app = reqCtx.app %>
+
+<% val paginator = new Paginator(app.config, reqCtx.req, response) %>
+
+<div class="page_links">
+
+    #if(paginator.needsPagination)
+        #if(paginator.showPreviousLink)
+        <a rel="prev" href="<%= paginator.previousPageLink %>"><%= unescape(reqCtx.messages("views.pagination_compact.previous")) %></a>
+        #else
+        <%= unescape(reqCtx.messages("views.pagination_compact.previous")) %>
+        #end
+        |
+    #end
+
+    <span class="page_entries">
+    #if(paginator.needsPagination)
+        <strong><%= paginator.start %></strong> - <strong><%= paginator.end %></strong> of <strong><%= Util.numberWithDelimiter(paginator.totalResults) %></strong>
+    #else
+        <strong><%= paginator.size %></strong> entries found
+    #end
+    </span>
+
+    #if(paginator.needsPagination)
+        |
+        #if(paginator.showNextLink)
+        <a rel="next" href="<%= paginator.nextPageLink %>"><%= unescape(reqCtx.messages("views.pagination_compact.next")) %></a>
+        #else
+        <%= unescape(reqCtx.messages("views.pagination_compact.next")) %>
+        #end
+    #end
+</div>

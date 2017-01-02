@@ -1,0 +1,33 @@
+<% import org.apache.solr.common.SolrDocument %>
+<% import lumen.DocumentPresenter %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val document: SolrDocument %>
+<%@ val docPresenter: DocumentPresenter %>
+
+<%-- TODO: render 'previous_next_doc' --%>
+
+<%-- TODO
+<% @page_title = t('blacklight.search.show.title', :document_title => document_show_html_title, :application_name => application_name).html_safe %>
+<% content_for(:head) { render_link_rel_alternates } %>
+--%>
+
+<div id="document" class="document <%= reqCtx.catalogPresenter.documentClass(document) %>" itemscope  itemtype="<%= docPresenter.itemType %>">
+<div id="doc_<%= docPresenter.getId %>">
+    <% val params = reqCtx.catalogPresenter.documentTemplatesRenderParams(document, reqCtx.app.config.viewConfigs.get("show").map(_.partials).head) %>
+    #for(p <- params)
+        <%= render(p) %>
+    #end
+</div>
+</div>
+
+<%-- TODO
+<% if @document.respond_to?(:export_as_openurl_ctx_kev) %>
+<!--
+// COinS, for Zotero among others.
+// This document_partial_name(@document) business is not quite right,
+// but has been there for a while.
+-->
+<span class="Z3988" title="<%= @document.export_as_openurl_ctx_kev(document_partial_name(@document)) %>"></span>
+<% end %>
+--%>

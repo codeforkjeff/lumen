@@ -1,0 +1,7 @@
+<% import lumen.FacetFields %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+
+<% val facetFields = FacetFields(reqCtx) %>
+
+<% render("/lumen/catalog/facets.ssp", Map("facetFields" -> facetFields)) %>

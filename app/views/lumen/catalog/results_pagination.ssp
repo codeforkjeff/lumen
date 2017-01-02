@@ -1,0 +1,39 @@
+<% import lumen.Paginator %>
+<% import lumen.RequestContext %>
+<% import lumen.response.Response %>
+<%@ val reqCtx: RequestContext %>
+<%@ val response: Response %>
+
+<% val paginator = new Paginator(reqCtx.app.config, reqCtx.req, response) %>
+
+#if(paginator.needsPagination)
+<div class="row record-padding">
+<div class="col-md-12">
+    <div class="pagination">
+        <ul class="pagination">
+            <li class="<%= if(!paginator.showPreviousLink) { "disabled" } %>">
+                <a rel="prev" <% if(!paginator.showPreviousLink) { %>onclick="return false;"<% } %> href="<%= if(paginator.showPreviousLink) paginator.previousPageLink else "#" %>"><%= unescape(reqCtx.messages("views.pagination.previous")) %></a>
+            </li>
+            <li class="<%= if(!paginator.showNextLink) { "disabled" } %>">
+                <a rel="next" <% if(!paginator.showNextLink) { %>onclick="return false;"<% } %>href="<%= if(paginator.showNextLink) paginator.nextPageLink else "#" %>"><%= unescape(reqCtx.messages("views.pagination.next")) %></a>
+            </li>
+            <% val windows = paginator.windows(4, 2) %>
+            <%-- make list of 2-item tuples of window and its next window --%>
+            <% val pairs = windows.zip(windows.drop(1).map(w => Some(w)) ::: List(Some(Range(0,0))))  %>
+            #for((window, nextWindowOpt) <- pairs)
+                #for(page <- window)
+                <li class="<%= if(page == paginator.currentPage) { "active" } %>">
+                <a href="<%= paginator.pageLink(page) %>"><%= page %></a>
+                </li>
+                #end
+                #if(nextWindowOpt.nonEmpty && nextWindowOpt.get.nonEmpty && window.nonEmpty && window.last + 1 != nextWindowOpt.get.head)
+                <li class="disabled">
+                    <span>&hellip;</span>
+                </li>
+                #end
+            #end
+        </ul>
+    </div>
+</div>
+</div>
+#end

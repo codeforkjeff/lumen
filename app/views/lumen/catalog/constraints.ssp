@@ -1,0 +1,24 @@
+<% import lumen.Constraints %>
+<% import lumen.RequestContext %>
+<% import lumen.Util %>
+<%@ val reqCtx: RequestContext %>
+<% val messages = reqCtx.messages %>
+
+<% val constraints: Constraints = reqCtx.app.createConstraints(reqCtx) %>
+
+#if(constraints.queryHasConstraints)
+    <div id="appliedParams" class="clearfix constraints-container">
+        <div class="pull-right">
+            <a id="startOverLink" class="catalog_startOverLink btn btn-sm btn-text" href="/catalog<%-- TODO: reverse routing --%>"><%= messages("lumen.search.start_over") %></a>
+        </div>
+        <span class="constraints-label"><%= messages("lumen.search.filters.title") %></span>
+        #if(constraints.hasSearchQuery)
+            <%= render(constraints.queryRenderParams) %>
+        #end
+        #for(facetField <- constraints.searchState.getFacetFields)
+            #for(facetValue <- constraints.searchState.getFacetValues(facetField))
+                <%= render(constraints.filterRenderParams(facetField, facetValue)) %>
+            #end
+        #end
+    </div>
+#end

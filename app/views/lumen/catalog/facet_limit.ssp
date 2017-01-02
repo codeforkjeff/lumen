@@ -1,0 +1,23 @@
+<% import lumen.FacetFields %>
+<% import lumen.FacetFieldConfig %>
+<% import lumen.FacetPaginator %>
+<% import lumen.RequestContext %>
+<% import lumen.SearchState %>
+<% import org.apache.solr.client.solrj.response.FacetField %>
+<%@ val reqCtx: RequestContext %>
+<%@ val facetFields: FacetFields %>
+<%@ val facetField: FacetFieldConfig %>
+<%@ val displayFacet: FacetField %>
+<%@ val searchState: SearchState %>
+<%@ val showMoreLink: Boolean %>
+<%@ val paginator: FacetPaginator %>
+
+<ul class="facet-values list-unstyled">
+    <% render("/lumen/catalog/facet_limit_list.ssp", Map("paginator" -> paginator)) %>
+
+    #if(!paginator.isLastPage && showMoreLink)
+    <li class="more_facets_link">
+        <a href="/catalog/facet/<%= facetField.fieldname %>?<%= searchState.queryString %>" class="more_facets_link"><%= unescape(reqCtx.messages(Seq(s"${facetField.fieldname}", "lumen.search.facets.more_html"), facetField.label)) %></a>
+    </li>
+    #end
+</ul>

@@ -1,0 +1,14 @@
+<% import lumen.SearchState %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val searchState: SearchState %>
+
+<%--
+ * instead of storing views in the config, we let users override this view
+ * if they want to modify the widgets. which will hopefully work.
+--%>
+
+<div class="search-widgets pull-right">
+    <% render("/lumen/catalog/sort_widget.ssp") %>
+    <% render("/lumen/catalog/per_page_widget.ssp") %>
+</div>

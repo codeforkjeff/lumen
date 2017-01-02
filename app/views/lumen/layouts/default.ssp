@@ -1,0 +1,74 @@
+<% import play.api.mvc.AnyContent %>
+<% import play.api.mvc.Request %>
+<% import play.api.data.Form %>
+<% import lumen.controllers.SearchFormData %>
+<% import lumen.LumenApp %>
+<% import lumen.Layout %>
+<% import lumen.RequestContext %>
+<%@ val body: String %>
+<%@ val searchForm: Form[SearchFormData] %>
+<%@ val title: String = "Lumen" %>
+<%@ val reqCtx: RequestContext %>
+<% val app = reqCtx.app %>
+<% val layout = app.layout %>
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <!-- Mobile viewport optimization h5bp.com/ad -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <!-- Internet Explorer use the highest version available -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
+    <!--[if IEMobile]>
+    <meta http-equiv="cleartype" content="on">
+    <![endif]-->
+
+    <title><%= title %></title>
+    <link rel="stylesheet" href="<%= lumen.controllers.routes.Assets.versioned("stylesheets/main.css") %>">
+    <link rel="stylesheet" href="<%= lumen.controllers.routes.Assets.versioned("stylesheets/site.css") %>">
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/jquery-3.1.0.min.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/core.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/autofocus.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/checkbox_submit.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/bookmark_toggle.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/ajax_modal.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/search_context.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/collapsable.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/facet_load.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/autocomplete.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/lumen/lumen.js") %>"></script>
+    <script src="<%= lumen.controllers.routes.Assets.versioned("javascripts/bootstrap.min.js") %>"></script>
+
+    <%-- TODO
+    <%= opensearch_description_tag application_name, opensearch_catalog_url(:format => 'xml') %>
+    <%= favicon_link_tag %>
+    <%= csrf_meta_tags %>
+    <%= content_for(:head) %>
+    --%>
+</head>
+<body class="<%= layout.renderBodyClass %>">
+
+<% render("/lumen/shared/header_navbar.ssp") %>
+
+<% render("/lumen/shared/ajax_modal.ssp") %>
+
+<div id="main-container" class="<%= layout.containerClasses %>">
+    <h1 class="sr-only application-heading"><%= reqCtx.applicationName %></h1>
+
+    <%-- TODO: render :partial=>'/flash_msg', layout: 'shared/flash_messages' --%>
+
+    <div class="row">
+        <%= unescape(body) %>
+    </div>
+</div>
+
+<% render("/lumen/shared/footer.ssp") %>
+
+</body>
+</html>

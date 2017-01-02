@@ -1,0 +1,6 @@
+
+<%-- TODO: render 'did_you_mean' --%>
+
+<% render("/lumen/catalog/constraints.ssp") %>
+
+<% render("/lumen/catalog/sort_and_per_page.ssp") %>

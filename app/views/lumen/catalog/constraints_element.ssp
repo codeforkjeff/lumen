@@ -1,0 +1,31 @@
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val label: Option[String] %>
+<%@ val value: String %>
+<%@ val removeUrl: String %>
+<%@ val classes: Seq[String] %>
+<% val messages = reqCtx.messages %>
+
+<span class="btn-group appliedFilter constraint <%= classes.mkString(" ") %>">
+    <span class="constraint-value btn btn-sm btn-default btn-disabled">
+    #if(label.nonEmpty)
+        <span class="filterName"><%= label.get %></span>
+    #end
+    #if(value != null)
+        <span class="filterValue" title="<%= value %>"><%= value %></span>
+    #end
+    </span>
+    #if(removeUrl != null)
+    <a class="btn btn-default btn-sm remove dropdown-toggle" href="<%= removeUrl %>">
+        <span class="glyphicon glyphicon-remove"></span>
+        <span class="sr-only">
+        #if(label.isEmpty)
+            <%= messages("lumen.search.filters.remove.value", value) %>
+        #else
+            <%= messages("lumen.search.filters.remove.label_value", label.get, value) %>
+        #end
+        </span>
+    </a>
+    #end
+
+</span>

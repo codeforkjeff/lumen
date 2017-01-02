@@ -1,0 +1,27 @@
+<% import lumen.LumenApp %>
+<% import lumen.Paginator %>
+<% import lumen.response.Response %>
+<% import lumen.SearchState %>
+<% import lumen.RequestContext %>
+<% import lumen.Util %>
+<%@ val response: Response %>
+<%@ val searchState: SearchState %>
+<%@ val reqCtx: RequestContext %>
+<% val app = reqCtx.app %>
+<% val messages = reqCtx.messages %>
+
+#if(!response.isEmpty && app.config.sortFieldsOrdered.nonEmpty)
+
+    <div id="sort-dropdown" class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <%= messages("lumen.search.sort.label", searchState.getSortField.label) %> <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu" role="menu">
+            #for(sortField <- app.config.sortFieldsOrdered)
+                <li><a href="<%= searchState.changeSort(sortField.fieldname).path %>"><%= sortField.label %></a></li>
+            #end
+        </ul>
+    </div>
+
+#end

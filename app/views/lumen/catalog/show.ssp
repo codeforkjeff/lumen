@@ -1,0 +1,10 @@
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+
+<div id="content" class="<%= reqCtx.app.layout.showContentClasses %>">
+<% render(reqCtx.catalogPresenter.documentMainContentRenderParams) %>
+</div>
+
+<div id="sidebar" class="<%= reqCtx.app.layout.showSidebarClasses %>">
+<% render(reqCtx.catalogPresenter.documentSidebarRenderParams) %>
+</div>

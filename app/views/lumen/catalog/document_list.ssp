@@ -1,0 +1,10 @@
+<% import lumen.response.Response %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val response: Response %>
+
+<div id="documents" class="documents-<%= reqCtx.catalogPresenter.documentIndexViewType %>">
+    #for((document, index) <- response.solrResponse.getResults.zipWithIndex)
+        <% render("/lumen/catalog/document.ssp", Map("docPresenter" -> reqCtx.app.createDocumentPresenter(reqCtx, document, "index"), "docCounter" -> index)) %>
+    #end
+</div>

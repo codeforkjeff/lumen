@@ -1,0 +1,12 @@
+<% import lumen.DocumentPresenter %>
+<% import lumen.Util %>
+<%@ val docPresenter: DocumentPresenter %>
+
+<dl class="dl-horizontal  dl-invert">
+  #for(showField <- docPresenter.showFields)
+    #if(docPresenter.shouldRenderShowField(showField))
+	    <dt class="lumen-<%= Util.parameterize(showField.fieldname) %>"><%= docPresenter.showFieldLabel(showField) %></dt>
+	    <dd class="lumen-<%= Util.parameterize(showField.fieldname) %>"><%= docPresenter.fieldValue(showField.fieldname) %></dd>
+    #end
+  #end
+</dl>

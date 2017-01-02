@@ -1,0 +1,39 @@
+<% import lumen.FacetFieldConfig %>
+<% import lumen.FacetPaginator %>
+<% import lumen.RequestContext %>
+<% import lumen.SearchState %>
+<%@ val reqCtx: RequestContext %>
+<%@ val facetField: FacetFieldConfig %>
+<%@ val searchState: SearchState %>
+<%@ val paginator: FacetPaginator %>
+<% val messages = reqCtx.messages %>
+
+<div class="prev_next_links btn-group pull-left">
+    #if(!paginator.isFirstPage)
+        <% val qs = searchState.pathForMoreFacetsPrevious(paginator).queryString %>
+        <a rel="previous" class="btn btn-link" data-ajax-modal="preserve" href="/catalog/facet/<%= facetField.fieldname %>?<%= qs %>"><%= unescape(messages("views.pagination.previous")) %></a>
+    #else
+        <span class="disabled btn btn-disabled"><%= unescape(messages("views.pagination.previous")) %></span>
+    #end
+
+    #if(!paginator.isLastPage)
+        <% val qs = searchState.pathForMoreFacetsNext(paginator).queryString %>
+        <a rel="previous" class="btn btn-link" data-ajax-modal="preserve" href="/catalog/facet/<%= facetField.fieldname %>?<%= qs %>"><%= unescape(messages("views.pagination.next")) %></a>
+    #else
+        <span class="disabled btn btn-disabled"><%= unescape(messages("views.pagination.next")) %></span>
+    #end
+</div>
+
+<div class="sort_options btn-group pull-right">
+  #if(paginator.sort == "index")
+      <span class="active az btn btn-default"><%= messages("lumen.search.facets.sort.index") %></span>
+
+      <% val qs = searchState.pathForMoreFacetsSort("count").queryString %>
+      <a class="sort_change numeric btn btn-default" data-ajax-modal="preserve" href="/catalog/facet/<%= facetField.fieldname %>?<%= qs %>"><%= messages("lumen.search.facets.sort.count") %></a>
+  #elseif(paginator.sort == "count")
+      <% val qs = searchState.pathForMoreFacetsSort("index").queryString %>
+      <a class="sort_change az btn btn-default" data-ajax-modal="preserve" href="/catalog/facet/<%= facetField.fieldname %>?<%= qs %>"><%= messages("lumen.search.facets.sort.index") %></a>
+
+      <span class="active numeric btn btn-default"><%= messages("lumen.search.facets.sort.count") %></span>
+  #end
+</div>

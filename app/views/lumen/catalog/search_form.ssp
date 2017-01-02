@@ -1,0 +1,47 @@
+<% import lumen.SearchState %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%-- searchState is not always passed in, so if it's not present (no search has been made), we make one --%>
+<%@ val searchState: SearchState = new SearchState(reqCtx.app.config, reqCtx.req.queryString) %>
+<% val app = reqCtx.app %>
+<% val req = reqCtx.req %>
+<% val messages = reqCtx.messages %>
+<%-- TODO: reverse routing --%>
+<form action="/catalog" class="search-query-form clearfix navbar-form" role="search">
+
+<%-- TODO: not sure that utf8 here is useful or necessary, it's a Rails thing --%>
+<input name="utf8" type="hidden" value="&#x2713;" />
+<% val hiddenParams = searchState.forSearch.params %>
+#for((key, values) <- hiddenParams)
+        #for(value <- values)
+        <input type="hidden" name="<%= key %>" value="<%= value %>"/>
+        #end
+#end
+
+<div class="input-group">
+    #if (app.config.searchFields.size > 1)
+    <span class="input-group-addon for-search-field">
+        <label for="search_field" class="sr-only"><%= messages("lumen.search.form.search_field.label") %></label>
+        <select name="search_field" id="search_field" title="<%= messages("lumen.search.form.search_field.title") %>" class="search_field">
+            #for((fieldname, field) <- app.config.searchFields)
+                <option value="<%= field.fieldname %>" <%= if(req.getQueryString("search_field").getOrElse(null) == field.fieldname) { "selected" } %>><%= field.label %></option>
+            #end
+        </select>
+      </span>
+    #end
+    #if(app.config.searchFields.size == 1)
+        <input type="hidden" name="search_field" value="<%= app.config.searchFields.keys.head %>"/>
+    #end
+
+    <label for="q" class="sr-only"><%= messages("lumen.search.form.search.label") %></label>
+    <%-- TODO: text_field_tag :q, params[:q], placeholder: t('blacklight.search.form.search.placeholder'), class: "search_q q form-control", id: "q", autofocus: should_autofocus_on_search_box?, data: { autocomplete_enabled: autocomplete_enabled?, autocomplete_path: blacklight.suggest_index_path } --%>
+    <input name="q" id="q" value="<%= req.getQueryString("q").getOrElse(null) %>" placeholder="<%= messages("lumen.search.form.search.placeholder") %>" class="search_q q form-control" autofocus="autofocus" data-autocomplete-enabled="false" data-autocomplete-path="/suggest" type="text">
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-primary search-btn" id="search">
+        <span class="submit-search-text"><%= messages("lumen.search.form.submit") %></span>
+        <span class="glyphicon glyphicon-search"></span>
+      </button>
+    </span>
+</div>
+
+</form>

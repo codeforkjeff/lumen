@@ -1,0 +1,24 @@
+<% import lumen.FacetFields %>
+<% import lumen.FacetFieldConfig %>
+<% import lumen.FacetPaginator %>
+<% import lumen.Util %>
+<% import org.apache.solr.client.solrj.response.FacetField %>
+<%@ val facetFields: FacetFields %>
+<%@ val facetField: FacetFieldConfig %>
+<%@ val displayFacet: FacetField %>
+<%@ val paginator: FacetPaginator %>
+
+<%-- see render_facet_limit_list --%>
+#for(countRecord <- paginator.items)
+    <% val selected = facetFields.facetInParams(facetField, countRecord) %>
+    <li>
+        <span class="facet-label">
+        #if(!selected)
+            <%= unescape(facetFields.selectFacetLink(facetField, countRecord)) %>
+        #else
+            <%= unescape(facetFields.removeFacetLink(facetField, countRecord)) %>
+        #end
+        </span>
+        <span class="facet-count <%= if(selected){"selected"} %>"><%= Util.numberWithDelimiter(countRecord.getCount()) %></span>
+    </li>
+#end

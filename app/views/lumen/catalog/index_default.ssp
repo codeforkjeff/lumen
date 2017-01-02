@@ -1,0 +1,13 @@
+<% import lumen.DocumentPresenter %>
+<% import lumen.Util %>
+<%@ val docPresenter: DocumentPresenter %>
+<%@ val docCounter: Int  %>
+
+<dl class="document-metadata dl-horizontal dl-invert">
+#for(indexField <- docPresenter.indexFields)
+    #if(docPresenter.shouldRenderIndexField(indexField))
+    <dt class="lumen-<%= Util.parameterize(indexField.fieldname) %>"><%= docPresenter.indexFieldLabel(indexField) %></dt>
+    <dd class="lumen-<%= Util.parameterize(indexField.fieldname) %>"><%= docPresenter.fieldValue(indexField.fieldname) %></dd>
+    #end
+#end
+</dl>

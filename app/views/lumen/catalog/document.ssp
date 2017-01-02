@@ -1,0 +1,17 @@
+<% import lumen.DocumentPresenter %>
+<% import lumen.response.Response %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val response: Response %>
+<%@ val docPresenter: DocumentPresenter %>
+<%@ val docCounter: Int  %>
+
+<div class="document <%= reqCtx.catalogPresenter.documentClass(docPresenter.doc) %> document-position-<%= docCounter %>" data-document-counter="<%= docCounter %>" itemscope itemtype="<%= docPresenter.itemType %>">
+    <% val params = reqCtx.catalogPresenter.documentTemplatesRenderParams(
+    docPresenter.doc,
+    reqCtx.app.config.viewConfigs.get(reqCtx.catalogPresenter.documentIndexViewType).map(_.partials).head,
+    extraParams = Map("document_counter" -> docCounter.toString)) %>
+    #for(p <- params)
+        <%= render(p) %>
+    #end
+</div>

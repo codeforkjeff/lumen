@@ -1,0 +1,33 @@
+<% import lumen.FacetFields %>
+<% import lumen.FacetFieldConfig %>
+<% import lumen.RequestContext %>
+<% import lumen.response.Response %>
+<% import lumen.SearchState %>
+<% import org.apache.solr.client.solrj.response.FacetField %>
+<%@ val reqCtx: RequestContext %>
+<%@ val facetFields: FacetFields %>
+<%@ val facetField: FacetFieldConfig %>
+<%@ val response: Response %>
+<%@ val searchState: SearchState %>
+
+<div class="panel panel-default facet_limit <%= if(facetFields.facetFieldInParams(facetField.key)) { "facet_limit-active" } %> lumen-<%= facetField.fieldname %>">
+    <div class="<%= if(facetFields.shouldCollapseFacet(facetField)) { "collapsed" } %> collapse-toggle panel-heading" data-toggle="collapse" data-target="#<%= facetFields.facetFieldId(facetField) %>">
+    <h3 class="panel-title facet-field-heading">
+        <a href="#"><%= facetFields.facetFieldLabel(facetField.key) %></a>
+    </h3>
+    </div>
+    <div id="<%= facetFields.facetFieldId(facetField) %>" class="panel-collapse facet-content <%= if(facetFields.shouldCollapseFacet(facetField)) "collapse" else "in" %>">
+    <div class="panel-body">
+        #if(facetField.view.nonEmpty)
+            <% render(facetField.view.get) %>
+        #end
+        #if(facetField.pivot.nonEmpty)
+            <% render("/lumen/catalog/facet_pivot.ssp", Map("pivotFieldTree" -> response.getPivotFacet(facetField.pivotKey), "pivotFieldNames" -> facetField.pivotKey.split(",").toList)) %>
+        #else
+            <% val displayFacet = response.facets.get(facetField.fieldname).orNull %>
+            <% val paginator = reqCtx.app.createFacetPaginator(searchState, facetField, displayFacet, facetField.limit) %>
+            <% render("/lumen/catalog/facet_limit.ssp", Map("displayFacet" -> displayFacet, "showMoreLink" -> true, "paginator" -> paginator)) %>
+        #end
+    </div>
+    </div>
+</div>

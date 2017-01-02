@@ -1,0 +1,21 @@
+<% import play.api.i18n.Messages %>
+<% import lumen.SearchState %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val searchState: SearchState %>
+<% val messages = reqCtx.messages %>
+
+<h2><%= messages("lumen.search.zero_results.title") %></h2>
+<div id="documents" class="noresults">
+    <h3><%= messages("lumen.search.zero_results.modify_search") %></h3>
+    <ul>
+        <li><%= messages("lumen.search.zero_results.use_fewer_keywords") %></li>
+
+        #if(searchState.getSearchQuery.nonEmpty && !searchState.isDefaultSearchField)
+        <li><%= messages("lumen.search.zero_results.search_fields", reqCtx.catalogPresenter.labelForSearchField(searchState.selectedSearchField)) %> -
+            <a href="/catalog?<%= searchState.setParam("search_field", reqCtx.app.config.defaultSearchField.key).queryString %>"><%= messages("lumen.search.zero_results.search_everything", reqCtx.app.config.defaultSearchField.label) %></a>
+        </li>
+        #end
+
+    </ul>
+</div>

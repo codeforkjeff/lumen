@@ -1,0 +1,39 @@
+<% import lumen.FacetFields %>
+<% import lumen.response.Response %>
+<% import lumen.RequestContext %>
+<% import lumen.SearchState %>
+<%@ val reqCtx: RequestContext %>
+<%@ val facetFields: FacetFields %>
+<%@ val response: Response %>
+<%@ val searchState: SearchState %>
+
+#if(facetFields.hasFacetValues(response))
+<div id="facets" class="facets sidenav">
+
+    <div class="top-panel-heading panel-heading">
+        <button type="button" class="facets-toggle" data-toggle="collapse" data-target="#facet-panel-collapse">
+            <span class="sr-only">Toggle facets</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <h2 class='facets-heading'>
+            <%= reqCtx.messages("lumen.search.facets.title") %>
+        </h2>
+    </div>
+
+    <div id="facet-panel-collapse" class="collapse panel-group">
+        <%--- both facetfield and display facet into subtemplates --%>
+        #for(facet_fieldname <- facetFields.facetFieldNames)
+            <% val facetFieldConfig = facetFields.facetConfigurationForField(facet_fieldname) %>
+            #if(facetFields.shouldRenderFacet(response, facetFieldConfig))
+                <% render("/lumen/catalog/facet_layout.ssp",
+                Map("facetFields" -> facetFields,
+                "facetField" -> facetFieldConfig,
+                "searchState" -> searchState)) %>
+            #end
+        #end
+    </div>
+</div>
+#end

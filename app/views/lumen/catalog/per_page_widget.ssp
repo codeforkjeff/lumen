@@ -1,0 +1,24 @@
+<% import lumen.response.Response %>
+<% import lumen.SearchState %>
+<% import lumen.Util %>
+<% import lumen.RequestContext %>
+<%@ val reqCtx: RequestContext %>
+<%@ val response: Response %>
+<%@ val searchState: SearchState %>
+<% val messages = reqCtx.messages %>
+
+#if(!response.isEmpty && reqCtx.app.config.perPage.nonEmpty)
+
+    <span class="sr-only"><%= messages("lumen.search.per_page.title") %></span>
+    <div id="per_page-dropdown" class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <%= messages("lumen.search.per_page.button_label", searchState.getPerPage) %> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            #for(perPage <- reqCtx.app.config.perPage)
+            <li><a href="<%= searchState.changePerPage(perPage).path %>"><%= perPage %></a></li>
+            #end
+        </ul>
+    </div>
+
+#end
