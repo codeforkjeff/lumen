@@ -11,7 +11,9 @@
 </div>
 
 <div id="getting-started">
-    <p>Lumen is a port of <a href="http://projectblacklight.org">Blacklight</a> to Scala and the Play framework. It's a work in progress!</p>
+    <p><a href="https://github.com/codeforkjeff/lumen">Lumen</a> is a port
+    of <a href="http://projectblacklight.org">Blacklight</a> to Scala and
+    the Play framework. It's a work in progress!</p>
 
     <h3 class='section-heading'>Getting started:</h3>
 
