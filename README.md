@@ -17,7 +17,7 @@ to Blacklight's authors and contributors.
 
 # Status
 
-See the Wiki for current project status, what has been completed, and
+See the [Wiki](https://github.com/codeforkjeff/lumen/wiki) for current project status, what has been completed, and
 what remains to be done.
 
 Please help out if you know Blacklight, Rails, Scala, the Play
