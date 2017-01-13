@@ -1,16 +1,19 @@
 package lumen
 
+import views.html.helper
+
 object Util {
 
-  /** this must already exist in play somewhere, but i can't find it */
+  /**
+    * this must already exist in play somewhere, but i can't find it
+    * @return query string in param name order
+    **/
   def queryString(qsMap: Map[String, Seq[String]]): String = {
-    val begin = Seq.empty[(String, String)]
-    val pairs = qsMap.foldLeft(begin)((acc, entry) => {
-      val param = entry._1
-      val values = entry._2
-      values.map((param, _)) ++ acc
+    val pairs = qsMap.keySet.toList.sorted.flatMap((key) => {
+      val values = qsMap(key)
+      values.sorted.map((key, _))
     })
-    pairs.map(pair => pair._1 + "=" + pair._2).mkString("&")
+    pairs.map((pair) => s"${pair._1}=${helper.urlEncode(pair._2)}").mkString("&")
   }
 
   // TODO: implement more fully
